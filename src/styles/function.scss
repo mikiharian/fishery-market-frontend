@@ -1,0 +1,89 @@
+@mixin generateFontSize() {
+	@each $var in $fontSize {
+		&.is-size-#{nth($var, 1)} {
+      font-size: #{nth($var, 2)}px;
+      line-height: #{nth($var, 3)}px;
+		}
+	}
+}
+
+@mixin generateFontWeight() {
+	@each $var in $fontWeight {
+		&.is-weight-#{nth($var, 1)} {
+      font-weight: #{nth($var, 2)};
+		}
+	}
+}
+
+@mixin generateLetterSpacing() {
+	@each $var in $letterSpacing {
+		&.is-spacing-#{nth($var, 1)} {
+      letter-spacing: #{nth($var, 2)}px;
+		}
+	}
+}
+
+@mixin generateColor($type) {
+	@each $var in $color {
+		&.is-#{nth($var, 1)} {
+      @if ($type == 'color') {
+				color: #{nth($var, 2)};
+			} @else {
+				background: #{nth($var, 2)};
+				background-color: #{nth($var, 2)};
+			}
+		}
+	}
+}
+
+@mixin generateSpacing($direction, $prefix) {
+	@each $var in $spacing {
+		.m-#{$prefix}-#{nth($var, 1)} {
+			margin-#{$direction}: #{nth($var, 1)}px !important;
+		}
+
+		.m-#{$prefix}-n#{nth($var, 1)} {
+			margin-#{$direction}: -#{nth($var, 1)}px !important;
+		}
+
+		.p-#{$prefix}-#{nth($var, 1)} {
+			padding-#{$direction}: #{nth($var, 1)}px !important;
+		}
+	}
+
+	@each $var in $spacing {
+		.m-#{$prefix}-#{nth($var, 1)}-small {
+			@include breakpoint(small) {
+				margin-#{$direction}: #{nth($var, 1)}px !important;
+			}
+		}
+
+		.p-#{$prefix}-#{nth($var, 1)}-small {
+			@include breakpoint(small) {
+				padding-#{$direction}: #{nth($var, 1)}px !important;
+			}
+		}
+	}
+
+	@each $var in $spacing {
+		.m-#{$prefix}-#{nth($var, 1)}-medium {
+			@include breakpoint(medium) {
+				margin-#{$direction}: #{nth($var, 1)}px !important;
+			}
+		}
+
+		.p-#{$prefix}-#{nth($var, 1)}-medium {
+			@include breakpoint(medium) {
+				padding-#{$direction}: #{nth($var, 1)}px !important;
+			}
+		}
+	}
+}
+
+@mixin generateWidth() {
+	@each $class, $item in $width {
+		.w-#{nth($class, 1)} {
+			width: #{nth($item, 1)}
+		}
+	}
+}
