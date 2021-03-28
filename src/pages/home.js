@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import MainLayout from 'components/layout/MainLayout';
+
 class Home extends Component {
   render() {
     return (
@@ -8,4 +10,13 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default MainLayout({
+  component: Home,
+  props: {
+    title: 'Home',
+    head: {
+      title: 'Fishery Market',
+      description: ''
+    }
+  }
+});

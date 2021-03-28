@@ -1,0 +1,89 @@
+body {
+  box-sizing: border-box;
+  color: $dark;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px; // This is the base for REM
+  line-height: 1.25rem;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $gray-suit transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray-suit;
+    border-radius: 4px;
+  }
+}
+
+.text {
+  @include generateFontWeight();
+  @include generateFontSize();
+  @include generateLetterSpacing();
+}
+
+.color {
+  &.is-txt {
+    @include generateColor(color);
+  }
+
+  &.is-bg {
+    @include generateColor(background);
+  }
+}
+
+.main-layout {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background: $white;
+
+  @media screen and (min-width: 640px) {
+    width: $maxScreenWidth;
+    margin: 0 auto;
+    box-shadow: 0 0 48px 0 rgba(0, 0, 0, 0.20);
+  }
+
+  .page-container {
+    margin-top: 56px;
+    padding: 16px;
+    overflow: auto;
+    height: calc(100vh - 72px);
+  }
+
+  .header {
+    $headerHeight: 56px;
+    background: $jungle-green;
+    height: $headerHeight;
+    width: 100%;
+    position: fixed;
+    z-index: 98;
+    box-shadow: 0 2px 4px 0 rgba($dark, 0.1);
+
+    @media screen and (min-width: 640px) {
+      width: $maxScreenWidth;
+    }
+
+    .wrapper {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      color: $white;
+      @extend .text.is-size-hecto;
+      @extend .text.is-weight-semi-bold;
+    }
+  }
+}
