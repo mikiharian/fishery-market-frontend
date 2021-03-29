@@ -1,3 +1,16 @@
+const isPhoneNumber = (text) => {
+  const regex = /[0-9 \-()+]+$/;
+
+  return regex.test(text);
+};
+
+const isNumberOnly = (text) => {
+  const numberRegex = /^\d+$/;
+
+  if (text && numberRegex.test(text)) return true;
+  return false;
+};
+
 const formatCurrency = (x = 0, withCurrency) => {
   if (x === null) return '-';
   let number = x;
@@ -10,5 +23,7 @@ const formatCurrency = (x = 0, withCurrency) => {
 };
 
 module.exports = {
+  isNumberOnly,
+  isPhoneNumber,
   formatCurrency
 };

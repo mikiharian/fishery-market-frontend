@@ -147,6 +147,154 @@ p {
   border-radius: 8px;
 }
 
+.text-field {
+  position: relative;
+  box-shadow: 0;
+  margin-top: 8px;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+
+  &.disabled {
+    cursor: no-drop;
+  }
+
+  .helper {
+    display: inline-flex;
+    color: $scarpa-flow;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    margin-top: 8px;
+
+    &.error {
+      color: $coral;
+    }
+
+    &.disabled {
+      color: $gray-suit;
+    }
+  }
+
+  &.error:not(.disabled) {
+    input, textarea, .input {
+      border: 1px solid $coral;
+  
+      &::placeholder {
+        color: $mountain-mist;
+      }
+    }
+
+    textarea {
+      height: initial;
+    }
+  }
+
+  input, textarea, .input {
+    display: block;
+    height: 48px;
+    width: 100%;
+    border: 1px solid $gray-suit;
+    border-radius: 4px;
+    background-color: $white;
+    padding: 16px;
+    margin: 0;
+    color: $scarpa-flow;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+
+    &[type="password"] {
+      font-size: 28px;
+
+      &::placeholder {
+        font-size: 16px;
+      }
+    }
+
+    &::placeholder {
+      color: $mountain-mist;
+      text-transform: none !important;
+      letter-spacing: 0em !important;
+    }
+
+    &:focus {
+      border-color: $jungle-green;
+    }
+
+    &:disabled {
+      background-color: $whisper;
+      border: 1px solid $gray-suit;
+      color: $mountain-mist;
+    }
+  }
+
+  textarea {
+    resize: none;
+    padding: 8px 16px;
+    margin-bottom: 0;
+    height: initial;
+  }
+
+  .label {
+    display: block;
+    color: $scarpa-flow;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 16px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: transparent;
+    padding: 0;
+
+    &.error {
+      color: $coral;
+    }
+  }
+
+  .left-icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    left: 12px;
+    top: 12px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+    &.with-label {
+      top: 32px;
+    }
+
+    &.disabled {
+      color: $gray-suit;
+    }
+
+    &.with-click {
+      cursor: pointer;
+    }
+  }
+
+  .right-icon {
+    @extend .left-icon;
+    top: 18px;
+    right: 12px;
+    left: unset;
+    width: 12px;
+    height: 12px;
+  }
+
+  &.with-left-icon {
+    input, textarea, .input {
+      padding-left: 48px;
+    }
+  }
+}
+
 .price-item {
   @extend .card;
   display: flex;

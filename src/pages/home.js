@@ -1,50 +1,55 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import MainLayout from 'components/layout/MainLayout';
+import TextField from 'components/common/textfield';
+import Icon from 'components/common/icon';
 
 import FishModel from 'utils/models/fish';
 import { formatCurrency } from 'utils/stringHelper';
+
+const staticItems = [
+  {
+    uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
+    komoditas	:	'Udang Vannamei V3',
+    area_provinsi	:	'LAMPUNG',
+    area_kota	:	'PANDEGLANG',
+    size	:	60,
+    price	:	10000
+  },
+  {
+    uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
+    komoditas	:	'Udang Vannamei V3',
+    area_provinsi	:	'LAMPUNG',
+    area_kota	:	'PANDEGLANG',
+    size	:	60,
+    price	:	10000
+  },
+  {
+    uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
+    komoditas	:	'Udang Vannamei V3',
+    area_provinsi	:	'LAMPUNG',
+    area_kota	:	'PANDEGLANG',
+    size	:	60,
+    price	:	10000
+  },
+  {
+    uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
+    komoditas	:	'Udang Vannamei V3',
+    area_provinsi	:	'LAMPUNG',
+    area_kota	:	'PANDEGLANG',
+    size	:	60,
+    price	:	10000
+  }
+]
 
 class Home extends Component {
   state = {
     isLoading: true,
     isInfiniteScroll: false,
     offset: 1,
-    limit: 20,
-    items: [
-      {
-        uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
-        komoditas	:	'Udang Vannamei V3',
-        area_provinsi	:	'LAMPUNG',
-        area_kota	:	'PANDEGLANG',
-        size	:	60,
-        price	:	10000
-      },
-      {
-        uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
-        komoditas	:	'Udang Vannamei V3',
-        area_provinsi	:	'LAMPUNG',
-        area_kota	:	'PANDEGLANG',
-        size	:	60,
-        price	:	10000
-      },
-      {
-        uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
-        komoditas	:	'Udang Vannamei V3',
-        area_provinsi	:	'LAMPUNG',
-        area_kota	:	'PANDEGLANG',
-        size	:	60,
-        price	:	10000
-      },
-      {
-        uuid	:	'c6c1bafa-d9c7-42da-ae49-55f29af6aeec',
-        komoditas	:	'Udang Vannamei V3',
-        area_provinsi	:	'LAMPUNG',
-        area_kota	:	'PANDEGLANG',
-        size	:	60,
-        price	:	10000
-      }
-    ]
+    limit: 40,
+    query: '',
+    items: staticItems
   }
 
   componentDidMount() {
@@ -59,6 +64,7 @@ class Home extends Component {
 
   addRef = this.addRef.bind(this);
   handleScroll = this.handleScroll.bind(this);
+  onSearchChange = this.onSearchChange.bind(this);
 
   addRef(e) {
     this.helper = e;
@@ -91,11 +97,27 @@ class Home extends Component {
   }
 
   getPriceList(refresh = false) {
-    const { limit, offset } = this.state;
+    if (refresh) {
+      this.setState({
+        isLoading: true,
+        items: staticItems,
+        offset: 1
+      })
+    }
+
+    const { limit, offset, query } = this.state;
+
+    let search = {};
+    if (query) {
+      search = {
+        komoditas: query
+      }
+    }
 
     FishModel.getList({
       limit,
-      offset
+      offset,
+      search
     }).then(data => {
       this.setState(prevState => ({
         items: offset > 1 ? [
@@ -116,12 +138,32 @@ class Home extends Component {
     });
   }
 
+  onSearchChange(e, value) {
+    this.setState({
+      query: value
+    }, () => {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.getPriceList(true)
+      }, 300);
+    })
+  }
+
   render() {
-    const { isLoading, isInfiniteScroll, items } = this.state;
+    const {
+      isLoading, isInfiniteScroll, query, items
+    } = this.state;
 
     return (
       <>
-        {items.filter(item => item.komoditas !== null && item.price !== null).map((item, i) => (
+        <TextField
+          leftIcon={<Icon className="left-icon" type="search" width="24" height="24" />}
+          placeholder="Cari komoditas"
+          value={query}
+          onChange={this.onSearchChange}
+        />
+
+        {items.filter(item => item.komoditas && item.price).map((item, i) => (
           <div key={i} className="price-item">
             <div className="m-r-16">
               <p className={`text is-weight-bold color is-txt is-scarpa-flow ${isLoading ? 'loading' : ''}`}>
