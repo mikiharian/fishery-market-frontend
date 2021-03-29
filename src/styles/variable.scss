@@ -35,18 +35,24 @@ $width: (
   100p: 100%
 );
 
-$maxScreenWidth: 480px;
+$maxScreenWidth: 420px;
 $globalBorderRadius: 8px;
 
 $jungle-green:#28B796;
+$gray-default: #EEF4FC;
 $gray-suit: #CAC4D1;
+$mountain-mist: #9C97A3;
+$scarpa-flow: #605C66;
 $dark: #000;
 $white: #FFF;
 
 // Please also add in variable $color;
 $color: (
   jungle-green $jungle-green,
+  gray-default $gray-default,
   gray-suit $gray-suit,
+  mountain-mist $mountain-mist,
+  scarpa-flow $scarpa-flow,
   white $white,
   dark $dark
 );

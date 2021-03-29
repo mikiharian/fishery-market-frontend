@@ -45,11 +45,15 @@ p {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
 .main-layout {
   scroll-behavior: smooth;
   overflow-x: hidden;
   min-height: 100vh;
-  background: $white;
+  background: $gray-default;
 
   @media screen and (min-width: 640px) {
     width: $maxScreenWidth;
@@ -87,3 +91,77 @@ p {
     }
   }
 }
+
+@keyframes placeholderBackground{
+  0% {
+    background-position:-468px 0
+  }
+  100% {
+    background-position:468px 0
+  }
+}
+
+.loading {
+  position: relative;
+  min-width: 30px;
+  min-height: 10px;
+  z-index: 0;
+
+  &:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    content: '';
+    left:0;
+    top:0;
+
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: placeholderBackground;
+    animation-name: placeholderBackground;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: #eeeeee;
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, #eeeeee), color-stop(18%, #DDDDDD), color-stop(33%, #eeeeee));
+    background: -webkit-linear-gradient(left, #eeeeee 8%, #DDDDDD 18%, #eeeeee 33%);
+    background: linear-gradient(to right, #eeeeee 8%, #DDDDDD 18%,#eeeeee 33%);
+    -webkit-background-size: 800px 104px;
+    background-size: 800px 104px;
+  }
+}
+
+.card {
+  background-color: $white;
+  box-shadow: 2px 2px 4px 0 rgba($dark, 0.1);
+  border: none;
+  color: $dark;
+  height: initial;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.price-item {
+  @extend .card;
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  padding: 12px 16px;
+}
+
+/*
+  Function Generate
+  This function must be at the last
+ */
+
+ @include generateSpacing(left, l);
+ @include generateSpacing(right, r);
+ @include generateSpacing(top, t);
+ @include generateSpacing(bottom, b);
+ @include generateWidth();

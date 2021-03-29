@@ -50,34 +50,6 @@
 			padding-#{$direction}: #{nth($var, 1)}px !important;
 		}
 	}
-
-	@each $var in $spacing {
-		.m-#{$prefix}-#{nth($var, 1)}-small {
-			@include breakpoint(small) {
-				margin-#{$direction}: #{nth($var, 1)}px !important;
-			}
-		}
-
-		.p-#{$prefix}-#{nth($var, 1)}-small {
-			@include breakpoint(small) {
-				padding-#{$direction}: #{nth($var, 1)}px !important;
-			}
-		}
-	}
-
-	@each $var in $spacing {
-		.m-#{$prefix}-#{nth($var, 1)}-medium {
-			@include breakpoint(medium) {
-				margin-#{$direction}: #{nth($var, 1)}px !important;
-			}
-		}
-
-		.p-#{$prefix}-#{nth($var, 1)}-medium {
-			@include breakpoint(medium) {
-				padding-#{$direction}: #{nth($var, 1)}px !important;
-			}
-		}
-	}
 }
 
 @mixin generateWidth() {
