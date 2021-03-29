@@ -53,7 +53,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.getPriceList();
+    this.getPriceList(true);
 
     window.addEventListener('scroll', this.handleScroll, true);
   }
@@ -120,7 +120,7 @@ class Home extends Component {
       search
     }).then(data => {
       this.setState(prevState => ({
-        items: offset > 1 ? [
+        items: !refresh ? [
           ...prevState.items,
           ...data
         ] : data,
@@ -149,19 +149,39 @@ class Home extends Component {
     })
   }
 
+  renderEmpty() {
+    const { items } = this.state;
+
+    if (!items.length) {
+      return (
+        <div className="empty-price">
+          <p>Data yang kamu cari tidak ada...</p>
+        </div>
+      )
+    }
+
+    return null;
+  }
+
   render() {
     const {
       isLoading, isInfiniteScroll, query, items
     } = this.state;
 
     return (
-      <>
+      <div className="home-page">
         <TextField
           leftIcon={<Icon className="left-icon" type="search" width="24" height="24" />}
           placeholder="Cari komoditas"
           value={query}
           onChange={this.onSearchChange}
         />
+
+        {query.length ? (
+          <p className="text is-size-centi color is-txt is-scarpa-flow m-t-12">
+            Menampilkan hasil pencarian dari "<strong>{query}</strong>"
+          </p>
+        ) : null}
 
         {items.filter(item => item.komoditas && item.price).map((item, i) => (
           <div key={i} className="price-item">
@@ -184,12 +204,14 @@ class Home extends Component {
           </div>
         ))}
 
+        {this.renderEmpty()}
+
         <div className="text-center m-b-24" ref={this.addRef}>
           <p className="text is-size-centi">
             {isInfiniteScroll ? 'Memuat...' : ' '}
           </p>
         </div>
-      </>
+      </div>
     );
   }
 }
