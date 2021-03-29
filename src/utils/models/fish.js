@@ -13,6 +13,10 @@ class Fish {
     return store.read('list', { limit, offset, search });
   }
 
+  static addCommodity(data) {
+    return store.append('list', [data]);
+  }
+
   static getArea() {
     return store.read('option_area');
   }

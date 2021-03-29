@@ -3,7 +3,9 @@ import { findDOMNode } from 'react-dom';
 
 import MainLayout from 'components/layout/MainLayout';
 import Button from 'components/common/button';
+import Dropdown from 'components/common/button/dropdown';
 import TextField from 'components/common/textfield';
+import Modal from 'components/common/modal';
 import ModalFilter from 'components/common/modal/ModalFilter';
 import Icon from 'components/common/icon';
 
@@ -50,7 +52,7 @@ class Home extends Component {
     isLoading: true,
     isInfiniteScroll: false,
     offset: 1,
-    limit: 40,
+    limit: 50,
     query: '',
     sort: [
       {
@@ -80,6 +82,14 @@ class Home extends Component {
       size: []
     },
     showFilter: false,
+    showAdd: false,
+    addData: {
+      komoditas: '',
+      area: [],
+      size: [],
+      price: '',
+      isSaving: false
+    },
     items: staticItems
   }
 
@@ -98,7 +108,11 @@ class Home extends Component {
   handleScroll = this.handleScroll.bind(this);
   onSearchChange = this.onSearchChange.bind(this);
   onFilterHandler = this.onFilterHandler.bind(this);
-  onFilter = this.onFilter.bind(this)
+  onFilter = this.onFilter.bind(this);
+  addModalHandler = this.addModalHandler.bind(this);
+  onChange = this.onChange.bind(this);
+  onSelected = this.onSelected.bind(this);
+  save = this.save.bind(this);
 
   addRef(e) {
     this.helper = e;
@@ -133,12 +147,17 @@ class Home extends Component {
   getFilter() {
     FishModel.getArea().then(area => {
       FishModel.getSize().then(size => {
-        this.setState({
+        this.setState(prevState => ({
           filter: {
             area,
             size
+          },
+          addData: {
+            ...prevState.addData,
+            area,
+            size
           }
-        })
+        }))
       }).catch(() => {});
     }).catch(() => {});
   }
@@ -248,6 +267,101 @@ class Home extends Component {
     })
   }
 
+  addModalHandler() {
+    this.setState(prevState => ({
+      showAdd: !prevState.showAdd
+    }));
+  }
+
+  onChange(field) {
+    return (e, value) => {
+      this.setState(prevState => ({
+        addData: {
+          ...prevState.addData,
+          [field]: value
+        }
+      }));
+    };
+  }
+
+  onSelected(field) {
+    return (selected) => {
+      let { addData } = this.state;
+
+      if (field === 'area') {
+        addData = {
+          ...addData,
+          area: addData.area.map(item => ({
+            ...item,
+            selected: item.city === selected
+          }))
+        }
+      } else {
+        addData = {
+          ...addData,
+          size: addData.size.map(item => ({
+            ...item,
+            selected: item.size === selected
+          }))
+        }
+      }
+
+      this.setState({
+        addData
+      })
+    }
+  }
+
+  save() {
+    this.setState(prevState => ({
+      addData: {
+        ...prevState.addData,
+        isSaving: true
+      }
+    }), () => {
+      const { addData } = this.state;
+      const areaSelected = addData.area.find(item => item.selected);
+      const sizeSelected = addData.size.find(item => item.selected);
+
+      FishModel.addCommodity({
+        komoditas: addData.komoditas,
+        area_provinsi: areaSelected.province,
+        area_kota: areaSelected.city,
+        size: parseInt(sizeSelected.size, 10),
+        price: parseInt(addData.price, 10)
+      }).then(() => {
+        this.setState(prevState => ({
+          showAdd: false,
+          addData: {
+            ...prevState.addData,
+            komoditas: '',
+            area: prevState.addData.area.map(item => ({
+              ...item,
+              selected: false
+            })),
+            size: prevState.addData.size.map(item => ({
+              ...item,
+              selected: false
+            })),
+            price: ''
+          }
+        }), () => {
+          alert('Data berhasil ditambahkan');
+          this.getPriceList(true);
+        })
+      }).catch(() => {
+        alert('Data gagal ditambahkan')
+      }).finally(() => {
+        this.setState(prevState => ({
+          addData: {
+            ...prevState.addData,
+            isSaving: false
+          }
+        }))
+      })
+    })
+  }
+
   renderEmpty() {
     const { items } = this.state;
 
@@ -260,6 +374,78 @@ class Home extends Component {
     }
 
     return null;
+  }
+
+  renderAddModal() {
+    const { showAdd, addData } = this.state;
+    const areaSelected = addData.area.find(item => item.selected);
+    const sizeSelected = addData.size.find(item => item.selected);
+
+    return (
+      <Modal
+        className="modal-fullscreen"
+        show={showAdd}
+        title="Tambah"
+        onClose={this.addModalHandler}
+      >
+        <div className="p-t-16 p-r-16 p-b-16 p-l-16">
+          <TextField
+            className="m-b-16"
+            label="Komoditas"
+            placeholder="Masukan komoditas"
+            value={addData.komoditas}
+            onChange={this.onChange('komoditas')}
+          />
+          <p className="text is-weight-bold color is-txt is-scarpa-flow m-b-8">
+            Area
+          </p>
+          <Dropdown
+            className="m-b-16"
+            options={addData.area.map(item => ({
+              label: `${item.city}, ${item.province}`,
+              value: item.city,
+              selected: item.selected
+            }))}
+            defaultLabel="Pilih Area"
+            optionSelected={this.onSelected('area')}
+          />
+          <p className="text is-weight-bold color is-txt is-scarpa-flow m-b-8">
+            Size
+          </p>
+          <Dropdown
+            className="m-b-16"
+            options={addData.size.map(item => ({
+              label: item.size,
+              value: item.size,
+              selected: item.selected
+            }))}
+            defaultLabel="Pilih Size"
+            optionSelected={this.onSelected('size')}
+          />
+          <TextField
+            label="Harga"
+            numberOnly
+            placeholder="Masukan harga"
+            value={addData.price}
+            onChange={this.onChange('price')}
+          />
+          <Button
+            className="m-t-24"
+            isFull
+            isLarge
+            text="Simpan"
+            loading={addData.isSaving}
+            isDisabled={
+              !addData.komoditas
+              || !areaSelected
+              || !sizeSelected
+              || !addData.price
+            }
+            onClick={this.save}
+          />
+        </div>
+      </Modal>
+    );
   }
 
   render() {
@@ -335,6 +521,16 @@ class Home extends Component {
           filter={filter}
           onFilter={this.onFilter}
         />
+
+        {this.renderAddModal()}
+
+        <div className="btn-add-wrapper">
+          <Button
+            className="btn-add"
+            text={<span>&#x0002B;</span>}
+            onClick={this.addModalHandler}
+          />
+        </div>
 
         <div className="text-center m-b-24" ref={this.addRef}>
           <p className="text is-size-centi">

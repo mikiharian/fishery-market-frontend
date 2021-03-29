@@ -683,6 +683,32 @@ p {
     left: 50%;
     transform: translate(-50%, -50%);
     color: $scarpa-flow;
+    white-space: nowrap;
+  }
+
+  .btn-add-wrapper {
+    position: fixed;
+    bottom: 32px;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    @media screen and (min-width: 640px) {
+      width: $maxScreenWidth;
+    }
+
+    .btn-add {
+      float: right;
+      border-radius: 100%;
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+      min-width: unset;
+      font-size: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
