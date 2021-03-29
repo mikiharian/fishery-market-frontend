@@ -12,6 +12,14 @@ class Fish {
   }) {
     return store.read('list', { limit, offset, search });
   }
+
+  static getArea() {
+    return store.read('option_area');
+  }
+
+  static getSize() {
+    return store.read('option_size');
+  }
 }
 
 export default Fish;
