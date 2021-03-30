@@ -20,7 +20,7 @@ class DropDown extends Component {
       value: oneOfType([string, number, object]),
       selected: bool
     })),
-    defaultLabel: oneOfType([object, string]),
+    defaultLabel: string,
     defaultColorLabel: string,
     optionSelected: func
   }
@@ -34,15 +34,14 @@ class DropDown extends Component {
   }
 
   state = {
-    label: this.props.defaultLabel,
+    options: this.props.options,
     focus: false
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.options && nextProps.options.length) {
-      const selected = nextProps.options.find(item => item.selected);
       this.setState({
-        label: selected ? selected.label : this.props.defaultLabel
+        options: nextProps.options
       });
     }
   }
@@ -63,11 +62,14 @@ class DropDown extends Component {
 
   optionSelected(option) {
     return () => {
-      const { optionSelected } = this.props;
-      if (optionSelected) optionSelected(option.value);
-
-      this.setState({
-        label: option.label
+      this.setState(prevState => ({
+        options: prevState.options.map(item => ({
+          ...item,
+          selected: item.value === option.value
+        }))
+      }), () => {
+        const { optionSelected } = this.props;
+        if (optionSelected) optionSelected(option.value);
       });
     };
   }
@@ -83,13 +85,15 @@ class DropDown extends Component {
 
   renderButton() {
     const {
+      defaultLabel,
       defaultColorLabel
     } = this.props;
-    const { label, focus } = this.state;
+    const { focus, options } = this.state;
+    const selected = options.find(option => option.selected);
 
-    if (typeof label === 'object') {
+    if (selected && typeof selected.label === 'object') {
       return (
-        <Button text={label} />
+        <Button text={selected.label} />
       );
     }
 
@@ -97,8 +101,8 @@ class DropDown extends Component {
       <Button
         isLarge
         text={
-          <span className={`dropdown-label ${label === this.props.defaultLabel ? `color is-txt is-${defaultColorLabel}` : ''}`}>
-            {label}
+          <span className={`dropdown-label ${!selected ? `color is-txt is-${defaultColorLabel}` : ''}`}>
+            {selected ? selected.label : defaultLabel}
             <Icon
               className={`m-l-16 ${focus ? 'rotate-180' : ''}`}
               color="gray-suit"
