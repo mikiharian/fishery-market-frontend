@@ -3,7 +3,7 @@ function getDevStatus() {
 }
 
 function getBaseDomain() {
-  let BASE = '';
+  let BASE = 'http://fishery-market.herokuapp.com';
 
   if (getDevStatus()) {
     BASE = 'http://localhost:3000';
