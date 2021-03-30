@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Find the most recent version of this guide at [here](https://github.com/facebook/create-react-app/blob/master/README.md). And check out [Next.js repo](https://github.com/facebook/react/) for the most up-to-date info.
+Find the most recent version of this guide at [here](https://github.com/facebook/create-react-app/blob/master/README.md). And check out [React.js repo](https://github.com/facebook/react/) for the most up-to-date info.
 
 ## About
 
@@ -36,4 +36,4 @@ Build the project and run in Production mode
 
 ## Something Missing?
 
-If you have ideas for how we could improve this readme or the project in general, [let us know](https://github.com/ferdinandosp/next-jest-boilerplate/issues)
+If you have ideas for how we could improve this readme or the project in general, [let us know](https://github.com/mikiharian/fishery-market-frontend/issues)
