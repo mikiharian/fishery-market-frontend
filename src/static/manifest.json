@@ -1,0 +1,28 @@
+{
+  "short_name": "Fishery Market",
+  "name": "Fishery Market: Cek harga komoditas di indonesia",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "theme_color": "#28B796",
+  "background_color": "#ffffff",
+  "splash_pages": null,
+  "icons": [
+    {
+      "src": "/static/images/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/static/images/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/static/images/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

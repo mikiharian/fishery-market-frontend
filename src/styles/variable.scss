@@ -1,0 +1,62 @@
+$fontWeight: (
+  light 300,
+  regular 400,
+  semi-bold 600,
+  bold 700
+);
+
+$fontSize : (
+  mini 10 12,
+  deci 12 16,
+  centi 14 20,
+  base 16 20,
+  extra 16 24,
+  deca 18 24,
+  hecto 20 24,
+  kilo 24 28,
+  mega 34 40,
+  giga 48 57,
+  tera 60 71,
+  peta 96 112
+);
+
+$letterSpacing: (
+  micro -1.5,
+  mini -0.5,
+  base 0,
+  large 0.25,
+  huge 0.4,
+  giga 2
+);
+
+$spacing: (0, 4, 8, 12, 16, 20, 24, 32, 36, 40, 48, 56, 64, 72, 96);
+
+$width: (
+  100p: 100%
+);
+
+$maxScreenWidth: 420px;
+$globalBorderRadius: 8px;
+
+$jungle-green:#28B796;
+$gray-default: #EEF4FC;
+$gray-suit: #CAC4D1;
+$mountain-mist: #9C97A3;
+$scarpa-flow: #605C66;
+$whisper: #F5F2F7;
+$coral: #FF443F;
+$dark: #000;
+$white: #FFF;
+
+// Please also add in variable $color;
+$color: (
+  jungle-green $jungle-green,
+  gray-default $gray-default,
+  gray-suit $gray-suit,
+  mountain-mist $mountain-mist,
+  scarpa-flow $scarpa-flow,
+  whisper $whisper,
+  coral $coral,
+  white $white,
+  dark $dark
+);
