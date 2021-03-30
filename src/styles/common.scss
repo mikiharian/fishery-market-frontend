@@ -92,7 +92,7 @@ p {
 
   .page-container {
     margin-top: 128px;
-    padding: 16px;
+    padding: 8px 16px;
     overflow: auto;
     height: calc(100vh - 128px);
   }
@@ -665,6 +665,25 @@ p {
         display: flex;
         align-items: center;
       }
+    }
+  }
+
+  .sort-selected, .filter-selected {
+    border: 1px solid $rum;
+    border-radius: 16px;
+    height: 32px;
+    padding: 6px 14px;
+    font-size: 12px;
+    line-height: 16px;
+    color: $scarpa-flow;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    margin-right: 8px;
+
+    a {
+      display: flex;
     }
   }
 
