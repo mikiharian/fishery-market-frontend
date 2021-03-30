@@ -39,6 +39,7 @@ $maxScreenWidth: 420px;
 $globalBorderRadius: 8px;
 
 $jungle-green:#28B796;
+$rum: #695787;
 $gray-default: #EEF4FC;
 $gray-suit: #CAC4D1;
 $mountain-mist: #9C97A3;
@@ -51,6 +52,7 @@ $white: #FFF;
 // Please also add in variable $color;
 $color: (
   jungle-green $jungle-green,
+  rum $rum,
   gray-default $gray-default,
   gray-suit $gray-suit,
   mountain-mist $mountain-mist,

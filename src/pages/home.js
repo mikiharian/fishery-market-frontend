@@ -8,6 +8,7 @@ import TextField from 'components/common/textfield';
 import Modal from 'components/common/modal';
 import ModalFilter from 'components/common/modal/ModalFilter';
 import Icon from 'components/common/icon';
+import Link from 'components/common/link';
 
 import FishModel from 'utils/models/fish';
 import { formatCurrency } from 'utils/stringHelper';
@@ -112,6 +113,7 @@ class Home extends Component {
   addModalHandler = this.addModalHandler.bind(this);
   onChange = this.onChange.bind(this);
   onSelected = this.onSelected.bind(this);
+  onClear = this.onClear.bind(this);
   save = this.save.bind(this);
 
   addRef(e) {
@@ -312,6 +314,36 @@ class Home extends Component {
     }
   }
 
+  onClear(field) {
+    return () => {
+      let { sort, filter } = this.state;
+
+      if (field === 'sort') {
+        sort = sort.map(item => ({
+          ...item,
+          selected: false
+        }))
+      }
+  
+      if (field === 'area' || field === 'size') {
+        filter = {
+          ...filter,
+          [field]: filter[field].map(item => ({
+            ...item,
+            selected: false
+          }))
+        }
+      }
+
+      this.setState({
+        sort,
+        filter
+      }, () => {
+        this.getPriceList(true);
+      })
+    }
+  }
+
   save() {
     this.setState(prevState => ({
       addData: {
@@ -448,6 +480,42 @@ class Home extends Component {
     );
   }
 
+  renderFilterSelected() {
+    const { sort, filter } = this.state;
+    const sortSelected = sort.find(item => item.selected);
+    const areaFilter = filter.area.find(item => item.selected);
+    const sizeFilter = filter.size.find(item => item.selected);
+
+    return (
+      <>
+        {sortSelected ? (
+          <span className="sort-selected">
+            Sort: <strong>{sortSelected.label}</strong>
+            <Link onClick={this.onClear('sort')}>
+              <Icon className="m-l-8" type="close" height="12" width="12" />
+            </Link>
+          </span>
+        ) : null}
+        {sizeFilter ? (
+          <span className="filter-selected">
+            Size: <strong>{sizeFilter.size}</strong>
+            <Link onClick={this.onClear('size')}>
+              <Icon className="m-l-8" type="close" height="12" width="12" />
+            </Link>
+          </span>
+        ) : null}
+        {areaFilter ? (
+          <span className="filter-selected">
+            <strong>{areaFilter.province}, {areaFilter.city}</strong>
+            <Link onClick={this.onClear('area')}>
+              <Icon className="m-l-8" type="close" height="12" width="12" />
+            </Link>
+          </span>
+        ) : null}
+      </>
+    )
+  }
+
   render() {
     const {
       isLoading,
@@ -486,10 +554,12 @@ class Home extends Component {
         </div>
 
         {query.length ? (
-          <p className="text is-size-centi color is-txt is-scarpa-flow">
+          <p className="text is-size-centi color is-txt is-scarpa-flow m-t-8">
             Menampilkan hasil pencarian dari "<strong>{query}</strong>"
           </p>
         ) : null}
+
+        {this.renderFilterSelected()}
 
         {items.map((item, i) => (
           <div key={i} className="price-item">
