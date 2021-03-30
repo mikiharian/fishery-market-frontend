@@ -21,8 +21,8 @@ const Head = ({
     <meta property="og:image:height" content="630" />
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="keywords" content={keywords} />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/static/favicon.png" />
+    <link rel="manifest" href="/static/manifest.json" />
+    <link rel="icon" href="/static/images/favicon.ico" />
     <style dangerouslySetInnerHTML={{ __html: globalStyle }} />
   </NextHead>
 );
